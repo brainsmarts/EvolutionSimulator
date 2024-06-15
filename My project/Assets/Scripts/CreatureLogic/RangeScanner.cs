@@ -26,7 +26,6 @@ public class RangeScanner : MonoBehaviour
             creatures_in_range.Add(other.gameObject.GetComponent<BaseCreature>());  
         } else if (other.tag.Equals("Food"))
         {
-            Debug.Log("Food Found");
             food_in_range.Add(other.gameObject.GetComponent<FoodScript>());
         }
            
@@ -40,7 +39,7 @@ public class RangeScanner : MonoBehaviour
         }
         else if(collision.tag.Equals("Food"))
         {
-            Debug.Log("Food Removed");
+            //Debug.Log("Food Removed");
             food_in_range.Remove(collision.gameObject.GetComponent<FoodScript>());
         }
     }

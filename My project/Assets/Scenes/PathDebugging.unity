@@ -6839,7 +6839,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 305475382}
   world_map: {fileID: 1528314036}
-  time_scale: 0.2
+  time_scale: 1
   terrain_map: {fileID: 161190939}
 --- !u!1 &1547290546
 GameObject:

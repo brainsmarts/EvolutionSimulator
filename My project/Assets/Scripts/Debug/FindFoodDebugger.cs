@@ -11,8 +11,7 @@ public class FindFoodDebugger : MonoBehaviour
     Rigidbody2D creature_rb;
     [SerializeField]
     RangeScanner scanner;
-    ActionBase find_food;
-    bool running = false;
+    IAction find_food;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,25 +26,5 @@ public class FindFoodDebugger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)){
-            if (running)
-            {
-                if (find_food.IsRunning())
-                {
-                    find_food.Run();
-                }
-                else
-                {
-                    running = false;
-                }
-                
-                return;
-            }
-            if (find_food.Condition())
-            {
-                find_food.Init();
-                running = true;
-            }
-        }
     }
 }

@@ -27,8 +27,8 @@ public class GenericMovement
         int maxx = a.x - b.x < 0 ? b.x : a.x;
         int maxy = a.y - b.y < 0 ? b.y : a.y;
 
-        Debug.Log("Point A: " + a);
-        Debug.Log("Point B: " + b);
+        //Debug.Log("Point A: " + a);
+        //Debug.Log("Point B: " + b);
         xq.Enqueue(a.x);
         yq.Enqueue(a.y);
         while (xq.Count > 0)

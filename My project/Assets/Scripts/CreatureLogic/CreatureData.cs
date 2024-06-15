@@ -22,7 +22,6 @@ public class CreatureData
     public int Speed { get; private set;}
     public BaseCreature Target {get; set;}
     public float TimeBorn {get; private set;}
-    public List<ActionBase> Actions {get; private set;}
     public Color Color { get; private set;}
 
     private Grid grid;
@@ -33,17 +32,12 @@ public class CreatureData
         this.Energy = energy;
         this.Speed = speed;
         this.Sight_range = sight_range;
-        this.Actions = Actions;
         Current_energy = energy / 2;
         TimeBorn = Time.time;
         Color = color;
         this.transform = transform;
         grid = GameManager.Instance.getGrid();
         path = new();
-    }
-
-    public void SetActions(List<ActionBase> actions){
-        this.Actions = actions;
     }
 
     public void DecreaseEnergy(int amount){
@@ -65,25 +59,29 @@ public class CreatureData
     public void SetNewTargetLocation(Vector3Int new_location)
     {
         path = GenericMovement.MoveTo(grid.WorldToCell(transform.position), new_location);
+        if(path.Count <= 0){
+            return;
+        }
         Target_Location = grid.GetCellCenterWorld(path.Pop());
     }
 
     public void NextInPath(){
         Target_Location = grid.GetCellCenterWorld(path.Pop());
-        Debug.Log(Target_Location);
     }
 
-    public void SetRandomPath(){
+    public Vector3Int SetRandomPath(){
         int negativex = UnityEngine.Random.Range(0f,1f) > .5f ? -1 : 1;
         int negativey = UnityEngine.Random.Range(0f,1f) > .5f ? -1 : 1;
+        Vector3Int og_position = grid.WorldToCell(transform.position);
         Vector3Int position = grid.WorldToCell(transform.position);
         position.x += negativex * UnityEngine.Random.Range(5,10);
         position.y += negativey * UnityEngine.Random.Range(5,10);
-        //Debug.Log(GameManager.Instance.OutOfBounds(position));
-        //Debug.Log(GameManager.Instance.IsNotRock(position));
+
         if(GameManager.Instance.OutOfBounds(position) || !GameManager.Instance.IsNotRock(position)){
-            return;
+            position.x = og_position.x + negativex * UnityEngine.Random.Range(5,10);
+            position.y = og_position.y + negativey * UnityEngine.Random.Range(5,10);
         }
         SetNewTargetLocation(position);
+        return position;
     }
 }
