@@ -36807,7 +36807,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 1509355984}
   world_map: {fileID: 1104449226}
-  time_scale: 0.5
+  time_scale: 1
   terrain_map: {fileID: 890441168}
 --- !u!114 &1424265769
 MonoBehaviour:
@@ -36826,7 +36826,7 @@ MonoBehaviour:
   world_map: {fileID: 1104449226}
   food_holder: {fileID: 208674763}
   food: {fileID: 6196084175196898504, guid: 9218356c47f70a34d85bb9b2695007a8, type: 3}
-  food_spawn_rate: 100
+  food_spawn_rate: 1
 --- !u!114 &1424265770
 MonoBehaviour:
   m_ObjectHideFlags: 0

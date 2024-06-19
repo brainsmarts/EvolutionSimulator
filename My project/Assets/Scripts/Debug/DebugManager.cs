@@ -68,7 +68,9 @@ public class DebugManager : MonoBehaviour
         stats += "Speed:"+_creature.data.Speed + "\n";
         stats += "Target Location: " + _creature.data.Target_Location + "\n";
         stats += "Current Location:" + _creature.transform.position + "\n";
-        stats += "Path: " + _creature.data.path.Count;
+        stats += "Path: " + _creature.data.path.Count + "\n";
+        stats += "Action: " + _creature.current_action_node.action.ToString();
+
         
         _text.text = stats;
     }

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public class FindFood : ActionBase
+public class FindFood : IAction
 {
     public Rigidbody2D rb;
     public CreatureData data;
@@ -38,7 +38,7 @@ public class FindFood : ActionBase
         scanner = rangeScanner;
     }
 
-    public bool Condition()
+    public bool StartCondition()
     {
         if (data.IsFull())
         {
@@ -49,7 +49,7 @@ public class FindFood : ActionBase
     }
 
 
-    public void Init()
+    public void OnEnter()
     {
         Debug.Log("Init");
         Debug.Log("Food Position: " + grid.WorldToCell(food.GetPosition()));
@@ -60,18 +60,23 @@ public class FindFood : ActionBase
 
     public void Run()
     {
-        Debug.Log("Run");
-        if(food == null){
-            running = false;
-            //data.SetRandomPath();
-            return;
-        }
-
         if(Vector2.Distance(food.GetPosition(), rb.position) <= 0.16f){
             data.IncreaseEnergy(food.EatFood());
             running = false;
             //data.SetRandomPath();
         }
+    }
+
+    public bool EndCondition(){
+        if(food == null){
+            return true;
+        }
+
+        return false;
+    }
+
+    public void OnExit(){
+        //do nothing
     }
 
     override

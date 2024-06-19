@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using UnityEditor;
 using UnityEditor.SceneTemplate;
 using UnityEditorInternal;
@@ -42,7 +43,7 @@ public class CreateCreature : MonoBehaviour
 
         CreatureData data = new(id, 100, Random.Range(30,40), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), creature.transform);
         BaseCreature baseCreature = creature.GetComponent<BaseCreature>();
-        data.SetActions(CreateActions(creature.GetComponent<Rigidbody2D>(), data, creature.GetComponentInChildren<RangeScanner>()));
+        baseCreature.SetActions(CreateActions(creature.GetComponent<Rigidbody2D>(), data, creature.GetComponentInChildren<RangeScanner>()));
         
         baseCreature.SetData(data);
         SpriteRenderer spriteR = creature.GetComponent<SpriteRenderer>();
@@ -61,6 +62,8 @@ public class CreateCreature : MonoBehaviour
 
         CreatureData data3 = CreateData(data1, data2, new_creature.GetComponent<Rigidbody2D>(), new_creature.GetComponentInChildren<RangeScanner>());
         creature_base.SetData(data3);
+
+        creature_base.SetActions(CreateActions(new_creature.GetComponent<Rigidbody2D>(),data3,new_creature.GetComponentInChildren<RangeScanner>()));
  
         SpriteRenderer spriteR = new_creature.GetComponent<SpriteRenderer>();
         spriteR.color = data3.Color;
@@ -86,18 +89,33 @@ public class CreateCreature : MonoBehaviour
 
         Color color = Color.Lerp(parent1.Color, parent2.Color, 1);
         data = new(id, energy, speed, sight_range, color, creature_rb.transform);
-        data.SetActions(CreateActions(creature_rb, data, scanner));
         return data;
     }
 
-    private List<ActionBase> CreateActions(Rigidbody2D creature_rb, CreatureData data, RangeScanner scanner){
-        List<ActionBase> actions = new();
+    private ActionGraph CreateActions(Rigidbody2D creature_rb, CreatureData data, RangeScanner scanner){
+        
         FindFood find_food = new();
-        find_food.SetData(data);
-        find_food.SetRigidBody(creature_rb);
-        find_food.SetScanner(scanner);
+        InitAction(find_food, creature_rb, data, scanner);
 
-        actions.Add(find_food);
+        Wander wander = new();
+        InitAction(wander, creature_rb, data, scanner);
+
+        ActionNode find_food_node = new(find_food);
+        ActionNode wander_node = new(wander);
+        find_food_node.AddAction(wander_node);
+        wander_node.AddAction(find_food_node);
+        wander_node.AddAction(wander_node);
+        List<ActionNode> action_list = new();
+        action_list.Add(wander_node);
+        action_list.Add(find_food_node);
+        ActionGraph actions = new(wander_node, action_list);
+
         return actions;
+    }
+
+    private void InitAction(IAction action, Rigidbody2D creature_rb, CreatureData data, RangeScanner scanner){
+        action.SetData(data);
+        action.SetRigidBody(creature_rb);
+        action.SetScanner(scanner);
     }
 }

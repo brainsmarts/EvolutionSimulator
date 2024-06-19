@@ -32,11 +32,15 @@ public class PathDebugger : MonoBehaviour
     Queue<int> yq;
     bool calculating;
 
-    int[,] directions = new int[4, 2] {
+    int[,] directions = new int[8, 2] {
             {1,0},
             {-1,0},
             {0,1},
-            {0,-1}
+            {0,-1},
+            {1,1},
+            {1,-1},
+            {-1,1},
+            {-1,-1}
         };
     // Start is called before the first frame update
     void Start()
@@ -119,7 +123,7 @@ public class PathDebugger : MonoBehaviour
             int current_y = yq.Peek();
             //Debug.Log("From x , y " + current_x + ", " + current_y);
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 8; i++)
             {
                 int[] neighboor = new int[2] { current_x + directions[i, 0], current_y + directions[i, 1] };
 
