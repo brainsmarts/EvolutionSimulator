@@ -84,4 +84,10 @@ public class FindFood : IAction
     {
         return "Finding Food";
     }
+
+    public void PrintStatus()
+    {
+        Debug.Log(ToString());
+        Debug.Log("Food Location: " + grid.WorldToCell(food.GetPosition()));
+    }
 }
