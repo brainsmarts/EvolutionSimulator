@@ -40,7 +40,7 @@ public class BaseCreature : MonoBehaviour
     void FixedUpdate()
     {
         DoAction();
-        MoveToTargetLocation();
+        ObstacleCheck();
         CheckMetobolism();
         CheckDeath();
     }
@@ -70,32 +70,39 @@ public class BaseCreature : MonoBehaviour
         current_action_node.action.Run();
     }
 
-    private void MoveToTargetLocation(){
-        //Debug.Log(grid.WorldToCell(transform.position) + " < > " + grid.WorldToCell(data.Target_Location));
-        
-        //Condition comparing if distance is less than 0.01 is sketchy
-        if (Vector3.Distance(transform.position,data.Target_Location) < 0.08f){
-            if(data.path.Count > 0){
-                data.NextInPath();
-            } else{
-                rb.velocity *= 0;
-            }
+    /* Obstacle Check
+     * Purpose -> checks for any obstacles in the current direction the creature is facing
+     * How it works
+     * casts a raycast in the direction the creature is facing with x length
+     * case 1: if the raycast detects an object other than itself
+     *  cancel the current action, and force a new action
+     *  if no actions can be forced, then the root action (likely idle) will be the new action
+     * case 2:
+     *  continue the current action
+     */ 
+    private void ObstacleCheck(){
 
-        }
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, rb.velocity, .16f);  
+        Vector3 rayDirection = rb.velocity.normalized * .16f;
 
-        rb.velocity = new Vector2(data.Target_Location.x - transform.position.x, data.Target_Location.y - transform.position.y).normalized * data.Speed * Time.deltaTime;
+        //For Us to see where the ray is being cast
+        Debug.DrawLine(rb.position, transform.position + rayDirection, Color.red);
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, rb.velocity, .2f);
-        //it hits its own collider first which is why it can never detect anything else
-        Debug.DrawRay(transform.position, rb.velocity.normalized * 0.1f, Color.red);
-
-        if (hit.collider != null && !collider.gameObject.Equals(gameObject))
+        foreach (RaycastHit2D hit in hits)
         {
-            Debug.Log("Stuck");
-            float newx, newy;
-            newx = -rb.velocity.y;
-            newy = rb.velocity.x;
-            rb.AddForce(new Vector2(newx, newy).normalized, ForceMode2D.Impulse);
+
+            if (!hit.collider.gameObject.Equals(gameObject))
+            {
+                Debug.Log("Obstacle Found: " + hit.collider);
+                ActionNode next = current_action_node.ForceNextAction();
+                //if no action is found, go back to the root
+                if(next == null)
+                {
+                    next = graph.root;
+                }
+                current_action_node = next;
+                current_action_node.action.OnEnter();
+            }
         }
     }
 

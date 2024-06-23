@@ -51,6 +51,8 @@ public class CreatureData
             Current_energy = Energy;
         }
     }
+
+    //returns a bool based on if the energy capacity is full or not
     public bool IsFull()
     {
         return Current_energy >= Energy;
@@ -58,29 +60,24 @@ public class CreatureData
 
     public void SetNewTargetLocation(Vector3Int new_location)
     {
-        path = GenericMovement.MoveTo(grid.WorldToCell(transform.position), new_location);
-        if(path.Count <= 0){
-            return;
-        }
-        Target_Location = grid.GetCellCenterWorld(path.Pop());
+        Target_Location = new_location;
     }
 
-    public void NextInPath(){
-        Target_Location = grid.GetCellCenterWorld(path.Pop());
-    }
-
+    /* Sets a random target coordinate
+     * If the position is out of bounds, or is a rock then get a new position
+     */
     public Vector3Int SetRandomPath(){
         int negativex = UnityEngine.Random.Range(0f,1f) > .5f ? -1 : 1;
         int negativey = UnityEngine.Random.Range(0f,1f) > .5f ? -1 : 1;
         Vector3Int og_position = grid.WorldToCell(transform.position);
         Vector3Int position = grid.WorldToCell(transform.position);
-        position.x += negativex * UnityEngine.Random.Range(5,10);
-        position.y += negativey * UnityEngine.Random.Range(5,10);
 
-        if(GameManager.Instance.OutOfBounds(position) || !GameManager.Instance.IsNotRock(position)){
-            position.x = og_position.x + negativex * UnityEngine.Random.Range(5,10);
-            position.y = og_position.y + negativey * UnityEngine.Random.Range(5,10);
-        }
+        do
+        {
+            position.x = og_position.x + negativex * UnityEngine.Random.Range(5, 10);
+            position.y = og_position.y + negativey * UnityEngine.Random.Range(5, 10);
+        } while (GameManager.Instance.OutOfBounds(position) || !GameManager.Instance.IsNotRock(position));
+
         SetNewTargetLocation(position);
         return position;
     }
