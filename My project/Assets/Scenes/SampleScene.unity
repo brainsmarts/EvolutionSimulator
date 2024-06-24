@@ -36860,10 +36860,10 @@ MonoBehaviour:
   water_map: {fileID: 361952502}
   border_map: {fileID: 456813782}
   water_tile: {fileID: 11400000, guid: 5af10e1ef0d3c484ea84ec7f85a3944e, type: 2}
+  water_threshhold: 0.3
   rock_tile: {fileID: 11400000, guid: 1cf92805ad041614b8920a6945e0ee16, type: 2}
-  scale: 1
-  offsetx: 0
-  offsety: 0
+  rock_threshhold: 0.05
+  scale: 40
 --- !u!1 &1509355983
 GameObject:
   m_ObjectHideFlags: 0
