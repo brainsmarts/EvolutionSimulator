@@ -36821,12 +36821,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5429587594d0a04bbee9f00c0ff4801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingFoodAmount: 20
+  StartingFoodAmount: 200
+  food_spawn_rate: 1
   food_map: {fileID: 503291662}
   world_map: {fileID: 1104449226}
   food_holder: {fileID: 208674763}
   food: {fileID: 6196084175196898504, guid: 9218356c47f70a34d85bb9b2695007a8, type: 3}
-  food_spawn_rate: 1
 --- !u!114 &1424265770
 MonoBehaviour:
   m_ObjectHideFlags: 0
