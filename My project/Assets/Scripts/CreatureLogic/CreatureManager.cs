@@ -15,7 +15,7 @@ public class CreatureManager : MonoBehaviour
 
     public static CreatureManager instance;
 
-    private string file_name = "/Log.txt";
+    private string FileName = "/Log.txt";
 
     [SerializeField]
     public TextAsset log;
@@ -39,17 +39,17 @@ public class CreatureManager : MonoBehaviour
     }
 
     public void LogCreatureStates(){
-        string path = Application.persistentDataPath + file_name;
+        string path = Application.persistentDataPath + FileName;
         StreamWriter writer = new(path, true);
-        List<BaseCreature> list_of_creatures = new List<BaseCreature>(gameObject.GetComponentsInChildren<BaseCreature>());
-        float av_speed = 0, av_range = 0;
-        foreach(BaseCreature creature in list_of_creatures){
-            av_range += creature.data.Sight_range;
-            av_speed += creature.data.Speed;
+        List<BaseCreature> listOfCreatures = new List<BaseCreature>(gameObject.GetComponentsInChildren<BaseCreature>());
+        float AvSpeed = 0, AvRange = 0;
+        foreach(BaseCreature creature in listOfCreatures){
+            AvRange += creature.data.SightRange;
+            AvSpeed += creature.data.Speed;
         }
         writer.WriteLine("Log");
-        writer.WriteLine("Average Speed" + av_speed / list_of_creatures.Count);
-        writer.WriteLine("Average Range" + av_range / list_of_creatures.Count);
+        writer.WriteLine("Average Speed" + AvSpeed / listOfCreatures.Count);
+        writer.WriteLine("Average Range" + AvRange / listOfCreatures.Count);
         writer.Close();
     }
 }

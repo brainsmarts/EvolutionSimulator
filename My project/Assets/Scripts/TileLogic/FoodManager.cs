@@ -10,23 +10,23 @@ public class FoodManager : MonoBehaviour
     [SerializeField]
     private int StartingFoodAmount;
     [SerializeField]
-    private float food_spawn_rate = 5f;
+    private float foodSpawnRate = 5f;
 
     //objects in scene
     [SerializeField]
-    private Tilemap food_map;
+    private Tilemap foodMap;
     [SerializeField]
-    private Tilemap world_map;
+    private Tilemap worldMap;
     [SerializeField]
-    Transform food_holder;
+    Transform foodHolder;
 
     //prefabs
     [SerializeField] 
     private GameObject food;
 
     //class variables
-    private float food_spawn_timer;
-    private BoundsInt map_border;
+    private float foodSpawnTimer;
+    private BoundsInt mapBorder;
     private Grid grid;
 
     //Singleton
@@ -35,8 +35,8 @@ public class FoodManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-        map_border = world_map.cellBounds;
-        food_spawn_timer = food_spawn_rate;
+        mapBorder = worldMap.cellBounds;
+        foodSpawnTimer = foodSpawnRate;
         for(int i = 0; i < StartingFoodAmount; i++)
         {
             RandomAddFood();    
@@ -46,14 +46,14 @@ public class FoodManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(food_spawn_timer < 0)
+        if(foodSpawnTimer < 0)
         {
             RandomAddFood();
-            food_spawn_timer = food_spawn_rate;
+            foodSpawnTimer = foodSpawnRate;
         }
         else
         {
-            food_spawn_timer -= Time.deltaTime;
+            foodSpawnTimer -= Time.deltaTime;
         }
     }
 
@@ -67,14 +67,14 @@ public class FoodManager : MonoBehaviour
 
         do
         {
-            random_position = new(Random.Range(map_border.xMin, map_border.xMax), Random.Range(map_border.yMin, map_border.yMax));
+            random_position = new(Random.Range(mapBorder.xMin, mapBorder.xMax), Random.Range(mapBorder.yMin, mapBorder.yMax));
             collider = Physics2D.OverlapCircle(GameManager.Instance.getGrid().CellToWorld(random_position), 0.08f);
             max_tries--;
         } while (collider != null);
 
         GameObject new_food = Instantiate(food);
         new_food.transform.position = GameManager.Instance.getGrid().GetCellCenterWorld(random_position);
-        new_food.transform.parent = food_holder;
+        new_food.transform.parent = foodHolder;
         new_food.name = random_position.ToString();
     }
 }

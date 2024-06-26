@@ -12,7 +12,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField]
     private Transform following;
     [SerializeField]
-    private bool is_follwing = false;
+    private bool isFollowing = false;
 
     public static CameraControl Instance { get; private set; }
     // Start is called before the first frame update
@@ -25,9 +25,9 @@ public class CameraControl : MonoBehaviour
     void Update()
     {
         if (following == null)
-            is_follwing = false;
+            isFollowing = false;
 
-        if(is_follwing == false)
+        if(isFollowing == false)
         {
             PlayerControl();
         } else
@@ -39,29 +39,29 @@ public class CameraControl : MonoBehaviour
 
     private void PlayerControl()
     {
-        float h_input = Input.GetAxisRaw("Horizontal");
-        float v_input = Input.GetAxisRaw("Vertical");
+        float hInput = Input.GetAxisRaw("Horizontal");
+        float vInput = Input.GetAxisRaw("Vertical");
 
-        if (h_input != 0)
+        if (hInput != 0)
         {
-            cam.transform.position = new Vector3(transform.position.x + (speed * h_input * (Time.deltaTime/Time.timeScale)), transform.position.y, transform.position.z);
+            cam.transform.position = new Vector3(transform.position.x + (speed * hInput * (Time.deltaTime/Time.timeScale)), transform.position.y, transform.position.z);
         }
 
-        if (v_input != 0)
+        if (vInput != 0)
         {
-            cam.transform.position = new Vector3(transform.position.x, transform.position.y + (speed * v_input * (Time.deltaTime / Time.timeScale)), transform.position.z);
+            cam.transform.position = new Vector3(transform.position.x, transform.position.y + (speed * vInput * (Time.deltaTime / Time.timeScale)), transform.position.z);
         }
     }
 
     public void SetFollow(Transform creature)
     {
-        is_follwing = true;
+        isFollowing = true;
         following = creature; 
     }
 
     public void StopFollow()
     {
-        is_follwing = false;
+        isFollowing = false;
     }
     private void FollowCreature()
     {

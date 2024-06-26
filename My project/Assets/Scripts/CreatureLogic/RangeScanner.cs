@@ -6,15 +6,15 @@ public class RangeScanner : MonoBehaviour
 {
     [SerializeField]
     private CircleCollider2D range;
-    private HashSet<BaseCreature> creatures_in_range;
-    private HashSet<FoodScript> food_in_range;
+    private HashSet<BaseCreature> creaturesInRange;
+    private HashSet<FoodScript> foodInRange;
 
     // Start is called before the first frame update
     void Awake()
     {
         //Debug.Log("Start method called, initializing HashSets.");
-        creatures_in_range = new();
-        food_in_range = new();
+        creaturesInRange = new();
+        foodInRange = new();
         //range.enabled = false;
         range.enabled = true;
     }
@@ -23,10 +23,10 @@ public class RangeScanner : MonoBehaviour
     {
         if (other.tag.Equals("Creature"))
         { 
-            creatures_in_range.Add(other.gameObject.GetComponent<BaseCreature>());  
+            creaturesInRange.Add(other.gameObject.GetComponent<BaseCreature>());  
         } else if (other.tag.Equals("Food"))
         {
-            food_in_range.Add(other.gameObject.GetComponent<FoodScript>());
+            foodInRange.Add(other.gameObject.GetComponent<FoodScript>());
         }
            
     }
@@ -35,12 +35,12 @@ public class RangeScanner : MonoBehaviour
     {
         if (collision.tag.Equals("Creature"))
         {
-            creatures_in_range.Remove(collision.GetComponent<BaseCreature>());
+            creaturesInRange.Remove(collision.GetComponent<BaseCreature>());
         }
         else if(collision.tag.Equals("Food"))
         {
             //Debug.Log("Food Removed");
-            food_in_range.Remove(collision.gameObject.GetComponent<FoodScript>());
+            foodInRange.Remove(collision.gameObject.GetComponent<FoodScript>());
         }
     }
 
@@ -57,18 +57,18 @@ public class RangeScanner : MonoBehaviour
 
     public HashSet<BaseCreature> GetCreatures()
     {
-        if(creatures_in_range == null)
+        if(creaturesInRange == null)
         {
             Debug.Log("Null HashSet");
         }
-        return creatures_in_range;
+        return creaturesInRange;
     }
 
     public FoodScript GetNearestFood()
     {
         float distance = float.MaxValue;
         FoodScript nearest_food = null;
-        foreach (FoodScript food in food_in_range)
+        foreach (FoodScript food in foodInRange)
         {
             //Debug.Log(distance);
             //Debug.Log(Vector2.Distance(food.GetPosition(), transform.position));

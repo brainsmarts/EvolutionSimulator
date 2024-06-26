@@ -10,7 +10,7 @@ public class Wander : IAction
     CreatureData data;
     Rigidbody2D rb;
     bool wandering = false;
-    Vector3Int wander_target;
+    Vector3Int wanderTarget;
     Grid grid;
 
     public Wander()
@@ -20,7 +20,7 @@ public class Wander : IAction
 
     public bool EndCondition()
     {
-        if (Vector3.Distance(rb.position, grid.CellToWorld(wander_target)) < 0.08){
+        if (Vector3.Distance(rb.position, grid.CellToWorld(wanderTarget)) < 0.08){
             wandering = false;
             return true;
         }
@@ -34,13 +34,12 @@ public class Wander : IAction
      */
     public void OnEnter()
     {
-        wander_target = data.SetRandomPath();
-        while(wander_target == Vector3Int.zero){
-            wander_target = data.SetRandomPath();
+        wanderTarget = data.SetRandomPath();
+        while(wanderTarget == Vector3Int.zero){
+            wanderTarget = data.SetRandomPath();
         }
-        creature_movement_reworked
         Vector3Int grid_position = GameManager.Instance.getGrid().WorldToCell(rb.position);
-        rb.velocity = new Vector2(wander_target.x - grid_position.x, wander_target.y - grid_position.y).normalized * data.Speed * .02f;
+        rb.velocity = new Vector2(wanderTarget.x - grid_position.x, wanderTarget.y - grid_position.y).normalized * data.Speed * .02f;
 
     }
 
@@ -83,7 +82,7 @@ public class Wander : IAction
     public void PrintStatus()
     {
         Debug.Log(this.ToString());
-        Debug.Log("Target Location: " + wander_target.ToString());
-        Debug.Log("Distance: " + Vector3.Distance(rb.position, grid.CellToWorld(wander_target)));
+        Debug.Log("Target Location: " + wanderTarget.ToString());
+        Debug.Log("Distance: " + Vector3.Distance(rb.position, grid.CellToWorld(wanderTarget)));
     }
 }

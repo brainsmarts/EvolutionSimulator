@@ -22,17 +22,17 @@ public class BaseCreature : MonoBehaviour
     
     //private List<ActionBase> actions;
     public ActionGraph graph {get; private set;}
-    public ActionNode current_action_node { get; private set; }
+    public ActionNode currentActionNode { get; private set; }
 
 
     [SerializeField]
-    private float metobolism_rate = 10;
-    private float metobolism_timer = 0;
+    private float metabolismRate = 10;
+    private float metabolismTimer = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        scanner.SetRange(data.Sight_range);
+        scanner.SetRange(data.SightRange);
         data.Target = null;
         scanner.Enable();
     }
@@ -47,27 +47,27 @@ public class BaseCreature : MonoBehaviour
 
     private void CheckMetobolism()
     {
-        if (metobolism_timer > metobolism_rate)
+        if (metabolismTimer > metabolismRate)
         {
             data.DecreaseEnergy(1);
-            metobolism_timer = 0;
+            metabolismTimer = 0;
         }
         else
         {
-            metobolism_timer += Time.deltaTime; 
+            metabolismTimer += Time.deltaTime; 
         }
     }
     private void DoAction()
     {
-        ActionNode next = current_action_node.NextAction();
+        ActionNode next = currentActionNode.NextAction();
         if(next != null)
         {
-            current_action_node.action.OnExit();
-            current_action_node = next;
-            current_action_node.action.OnEnter();
+            currentActionNode.action.OnExit();
+            currentActionNode = next;
+            currentActionNode.action.OnEnter();
         }
 
-        current_action_node.action.Run();
+        currentActionNode.action.Run();
     }
 
     /* Obstacle Check
@@ -94,21 +94,21 @@ public class BaseCreature : MonoBehaviour
             if (!hit.collider.gameObject.Equals(gameObject))
             {
                 Debug.Log("Obstacle Found: " + hit.collider);
-                ActionNode next = current_action_node.ForceNextAction();
+                ActionNode next = currentActionNode.ForceNextAction();
                 //if no action is found, go back to the root
                 if(next == null)
                 {
                     next = graph.root;
                 }
-                current_action_node = next;
-                current_action_node.action.OnEnter();
+                currentActionNode = next;
+                currentActionNode.action.OnEnter();
             }
         }
     }
 
     private void CheckDeath()
     {
-        if (data.Current_energy <= 0)
+        if (data.CurrentEnergy <= 0)
         {
             Debug.Log("I Died");
             Destroy(gameObject);
@@ -122,8 +122,8 @@ public class BaseCreature : MonoBehaviour
     public void SetActions(ActionGraph graph){
         Debug.Log("Setting Graph");
         this.graph = graph;
-        current_action_node = graph.root;
-        current_action_node.action.OnEnter();
+        currentActionNode = graph.root;
+        currentActionNode.action.OnEnter();
     }
 
     public int GetAge()

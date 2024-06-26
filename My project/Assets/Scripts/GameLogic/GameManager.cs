@@ -9,23 +9,23 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Grid grid;
     [SerializeField]
-    private Tilemap world_map;
+    private Tilemap worldMap;
     [SerializeField]
-    private float time_scale = 1;
+    private float timeScale = 1;
 
     [SerializeField]
-    private Tilemap terrain_map;
+    private Tilemap terrainMap;
 
-    private BoundsInt map_border;
+    private BoundsInt mapBorder;
     private int minx, maxx, miny, maxy; 
     // Start is called before the first frame update
     void Awake()
     {
         Instance = this;
-        map_border = world_map.cellBounds;
-        minx = map_border.xMin; maxx = map_border.xMax;
-        miny = map_border.yMin; maxy = map_border.yMax;
-        Time.timeScale = time_scale;    
+        mapBorder = worldMap.cellBounds;
+        minx = mapBorder.xMin; maxx = mapBorder.xMax;
+        miny = mapBorder.yMin; maxy = mapBorder.yMax;
+        Time.timeScale = timeScale;    
     }
 
     // Update is called once per frame
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     public bool IsNotRock(Vector3Int position)
     {
         //Debug.Log("Position " + position + " Is not rock " + terrain_map.GetTile(position) == null);
-        return terrain_map.GetTile(position) == null;
+        return terrainMap.GetTile(position) == null;
     }
 }
 
