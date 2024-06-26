@@ -8,7 +8,6 @@ using UnityEngine;
 public class CreatureData
 {
     public Vector3 Target_Location{get; set;}
-    public Stack<Vector3Int> path { get; private set; }
     public Transform transform { get; }
     [SerializeField]
     public int ID {get;}
@@ -37,7 +36,6 @@ public class CreatureData
         Color = color;
         this.transform = transform;
         grid = GameManager.Instance.getGrid();
-        path = new();
     }
 
     public void DecreaseEnergy(int amount){
