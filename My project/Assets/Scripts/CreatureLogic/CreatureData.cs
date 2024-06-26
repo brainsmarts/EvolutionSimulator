@@ -7,17 +7,17 @@ using UnityEngine;
 
 public class CreatureData
 {
-    public Vector3 Target_Location{get; set;}
     public Stack<Vector3Int> path { get; private set; }
+    public Vector3 TargetLocation{get; set;}
     public Transform transform { get; }
     [SerializeField]
     public int ID {get;}
     [SerializeField]
     public int Energy {get;}
     [SerializeField]
-    public int Current_energy {get; private set;}
+    public int CurrentEnergy {get; private set;}
     [SerializeField]
-    public int Sight_range {get;}
+    public int SightRange {get;}
     [SerializeField]
     public int Speed { get; private set;}
     public BaseCreature Target {get; set;}
@@ -31,36 +31,35 @@ public class CreatureData
         this.ID = ID;
         this.Energy = energy;
         this.Speed = speed;
-        this.Sight_range = sight_range;
-        Current_energy = energy / 2;
+        this.SightRange = sight_range;
+        CurrentEnergy = energy / 2;
         TimeBorn = Time.time;
         Color = color;
         this.transform = transform;
         grid = GameManager.Instance.getGrid();
-        path = new();
     }
 
     public void DecreaseEnergy(int amount){
         //Debug.Log("Decreasing Energy" + ID);
-        Current_energy -= amount;
+        CurrentEnergy -= amount;
     }
 
     public void IncreaseEnergy(int amount){
-        Current_energy += amount;
-        if (Current_energy > Energy) {
-            Current_energy = Energy;
+        CurrentEnergy += amount;
+        if (CurrentEnergy > Energy) {
+            CurrentEnergy = Energy;
         }
     }
 
     //returns a bool based on if the energy capacity is full or not
     public bool IsFull()
     {
-        return Current_energy >= Energy;
+        return CurrentEnergy >= Energy;
     }
 
     public void SetNewTargetLocation(Vector3Int new_location)
     {
-        Target_Location = new_location;
+        TargetLocation = new_location;
     }
 
     /* Sets a random target coordinate

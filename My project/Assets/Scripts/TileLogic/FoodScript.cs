@@ -6,14 +6,14 @@ public class FoodScript : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-    private int energy_stored;
+    private int energyStored;
 
     [SerializeField]
-    private HashSet<BaseCreature> creatures_in_range;
+    private HashSet<BaseCreature> creaturesInRange;
     public int EatFood()
     {
         Destroy(gameObject);
-        return energy_stored;
+        return energyStored;
     }
 
     public Vector3 GetPosition()

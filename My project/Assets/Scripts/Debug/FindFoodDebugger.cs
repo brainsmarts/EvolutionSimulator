@@ -8,19 +8,19 @@ public class FindFoodDebugger : MonoBehaviour
     [SerializeField]
     CreatureData data;
     [SerializeField]
-    Rigidbody2D creature_rb;
+    Rigidbody2D rb;
     [SerializeField]
     RangeScanner scanner;
-    IAction find_food;
+    IAction findFood;
     // Start is called before the first frame update
     void Start()
     {
         CreatureData data = new(1, 100, Random.Range(30, 40), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), transform);
-        find_food = new FindFood();
-        find_food.SetData(data);
-        find_food.SetRigidBody(creature_rb);
-        find_food.SetScanner(scanner);
-        scanner.SetRange(data.Sight_range);
+        findFood = new FindFood();
+        findFood.SetData(data);
+        findFood.SetRigidBody(rb);
+        findFood.SetScanner(scanner);
+        scanner.SetRange(data.SightRange);
     }
 
     // Update is called once per frame

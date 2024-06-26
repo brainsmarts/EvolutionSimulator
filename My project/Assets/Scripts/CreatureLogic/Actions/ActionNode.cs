@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ActionNode
 {
-    List<ActionNode> next_actions;
+    List<ActionNode> nextActions;
     public IAction action {get; private set;}
     public ActionNode(IAction action){
-        next_actions = new();
+        nextActions = new();
         this.action = action;
     }
     public void AddAction(ActionNode new_action)
     {
-        next_actions.Add(new_action);
+        nextActions.Add(new_action);
     }
     /* Next Action 
      * finds if the endcondition of the current action is done
@@ -26,11 +26,11 @@ public class ActionNode
         {
             return null;
         }
-        foreach(ActionNode next_action in next_actions)
+        foreach(ActionNode nextAction in nextActions)
         {
-            if (next_action.action.StartCondition())
+            if (nextAction.action.StartCondition())
             {
-                return next_action;
+                return nextAction;
             }
         }
         return null;
@@ -43,11 +43,11 @@ public class ActionNode
     public ActionNode ForceNextAction()
     {
         action.OnExit();
-        foreach (ActionNode next_action in next_actions)
+        foreach (ActionNode nextAction in nextActions)
         {
-            if (next_action.action.StartCondition())
+            if (nextAction.action.StartCondition())
             {
-                return next_action;
+                return nextAction;
             }
         }
         return null;

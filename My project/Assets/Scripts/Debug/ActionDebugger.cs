@@ -10,7 +10,7 @@ public class ActionDebugger : MonoBehaviour
     [SerializeField]
     private RangeScanner scanner;
     public ActionGraph graph { get; private set; }
-    public ActionNode current_action_node { get; private set; }
+    public ActionNode currentActionNode { get; private set; }
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +19,8 @@ public class ActionDebugger : MonoBehaviour
 
         //Setting the action tree
         CreateActions();
-        current_action_node = graph.root;
-        current_action_node.action.OnEnter();
+        currentActionNode = graph.root;
+        currentActionNode.action.OnEnter();
     }
 
     // Update is called once per frame
@@ -34,35 +34,35 @@ public class ActionDebugger : MonoBehaviour
 
     private void DoAction()
     {
-        ActionNode next = current_action_node.NextAction();
+        ActionNode next = currentActionNode.NextAction();
         if (next != null)
         {
-            current_action_node.action.OnExit();
-            current_action_node = next;
-            current_action_node.action.OnEnter();
-            Debug.Log("Next Action Started: " + current_action_node.action.ToString());
+            currentActionNode.action.OnExit();
+            currentActionNode = next;
+            currentActionNode.action.OnEnter();
+            Debug.Log("Next Action Started: " + currentActionNode.action.ToString());
         }
 
-        current_action_node.action.PrintStatus();
-        current_action_node.action.Run();
+        currentActionNode.action.PrintStatus();
+        currentActionNode.action.Run();
     }
     private void CreateActions()
     {
-        FindFood find_food = new();
-        InitAction(find_food);
+        FindFood findFood = new();
+        InitAction(findFood);
 
         Wander wander = new();
         InitAction(wander);
 
-        ActionNode find_food_node = new(find_food);
-        ActionNode wander_node = new(wander);
-        find_food_node.AddAction(wander_node);
-        wander_node.AddAction(find_food_node);
-        wander_node.AddAction(wander_node);
-        List<ActionNode> action_list = new();
-        action_list.Add(wander_node);
-        action_list.Add(find_food_node);
-        graph = new(wander_node, action_list);
+        ActionNode findFoodNode = new(findFood);
+        ActionNode wanderNode = new(wander);
+        findFoodNode.AddAction(wanderNode);
+        wanderNode.AddAction(findFoodNode);
+        wanderNode.AddAction(wanderNode);
+        List<ActionNode> actionList = new();
+        actionList.Add(wanderNode);
+        actionList.Add(findFoodNode);
+        graph = new(wanderNode, actionList);
     }
 
     private void InitAction(IAction action)
