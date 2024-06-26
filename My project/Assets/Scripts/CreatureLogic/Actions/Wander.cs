@@ -9,7 +9,6 @@ public class Wander : IAction
 {
     CreatureData data;
     Rigidbody2D rb;
-    RangeScanner scanner;
     bool wandering = false;
     Vector3Int wander_target;
     Grid grid;
@@ -28,19 +27,29 @@ public class Wander : IAction
         return false;
     }
 
+    /*
+     * On enter: 
+     * a random target coordinate is set
+     * the velocity is set such that it goes towards the coordinate
+     */
     public void OnEnter()
     {
         wander_target = data.SetRandomPath();
         while(wander_target == Vector3Int.zero){
             wander_target = data.SetRandomPath();
         }
-        wandering = true;
+        creature_movement_reworked
+        Vector3Int grid_position = GameManager.Instance.getGrid().WorldToCell(rb.position);
+        rb.velocity = new Vector2(wander_target.x - grid_position.x, wander_target.y - grid_position.y).normalized * data.Speed * .02f;
+
     }
 
     public void OnExit()
     {
     }
 
+    //This action only needs to keep moving
+    //This could also be a place for the obstacle detection instead of the controller
     public void Run()
     {
         //do nothing
@@ -58,12 +67,12 @@ public class Wander : IAction
 
     public void SetScanner(RangeScanner scanner)
     {
-        this.scanner = scanner;
+        //scanner is not used in this action
     }
 
     public bool StartCondition()
     {
-        return !wandering;   
+        return true;
     }
 
     override
