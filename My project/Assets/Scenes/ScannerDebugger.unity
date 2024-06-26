@@ -522,8 +522,8 @@ GameObject:
   m_Component:
   - component: {fileID: 455296794}
   - component: {fileID: 455296793}
-  - component: {fileID: 455296795}
   - component: {fileID: 455296796}
+  - component: {fileID: 455296797}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -574,20 +574,6 @@ Transform:
   - {fileID: 373871380}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &455296795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455296792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e5e8b0c1f156ed4dbe841e80b9b2cc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  creature_rb: {fileID: 455296793}
-  scanner: {fileID: 373871378}
 --- !u!114 &455296796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,6 +586,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b47c290041f2f47a7295ce05423bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &455296797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455296792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18745e8bf16185849a45ab068d479687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 455296793}
+  scanner: {fileID: 373871378}
 --- !u!1 &871450032
 GameObject:
   m_ObjectHideFlags: 0
@@ -6784,7 +6784,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -50.02483, z: -100.049644, w: 0}
+  m_margin: {x: 42.739594, y: -14.408489, z: -100.049644, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

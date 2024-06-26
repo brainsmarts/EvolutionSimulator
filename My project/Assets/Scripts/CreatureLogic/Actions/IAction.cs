@@ -13,4 +13,6 @@ public interface IAction
     public void OnExit();
     public void Run();
     public string ToString();
+
+    public void PrintStatus();
 }

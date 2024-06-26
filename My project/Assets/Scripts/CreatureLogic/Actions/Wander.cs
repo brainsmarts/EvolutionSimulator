@@ -12,11 +12,16 @@ public class Wander : IAction
     RangeScanner scanner;
     bool wandering = false;
     Vector3Int wander_target;
+    Grid grid;
+
+    public Wander()
+    {
+        grid = GameManager.Instance.getGrid();
+    }
 
     public bool EndCondition()
     {
-        if(Vector3.Distance(rb.position, wander_target) < 0.08){
-            Debug.Log("Wandering End Condition Met");
+        if (Vector3.Distance(rb.position, grid.CellToWorld(wander_target)) < 0.08){
             wandering = false;
             return true;
         }
@@ -30,7 +35,6 @@ public class Wander : IAction
             wander_target = data.SetRandomPath();
         }
         wandering = true;
-        Debug.Log("Wander Target: " + wander_target);
     }
 
     public void OnExit()
@@ -65,5 +69,12 @@ public class Wander : IAction
     override
     public string ToString(){
         return "Wander";
+    }
+
+    public void PrintStatus()
+    {
+        Debug.Log(this.ToString());
+        Debug.Log("Target Location: " + wander_target.ToString());
+        Debug.Log("Distance: " + Vector3.Distance(rb.position, grid.CellToWorld(wander_target)));
     }
 }
