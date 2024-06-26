@@ -11,11 +11,16 @@ public class Wander : IAction
     Rigidbody2D rb;
     bool wandering = false;
     Vector3Int wander_target;
+    Grid grid;
+
+    public Wander()
+    {
+        grid = GameManager.Instance.getGrid();
+    }
 
     public bool EndCondition()
     {
-        if(Vector3.Distance(rb.position, wander_target) < 0.08){
-            Debug.Log("Wandering End Condition Met");
+        if (Vector3.Distance(rb.position, grid.CellToWorld(wander_target)) < 0.08){
             wandering = false;
             return true;
         }
@@ -33,8 +38,10 @@ public class Wander : IAction
         while(wander_target == Vector3Int.zero){
             wander_target = data.SetRandomPath();
         }
+        creature_movement_reworked
         Vector3Int grid_position = GameManager.Instance.getGrid().WorldToCell(rb.position);
         rb.velocity = new Vector2(wander_target.x - grid_position.x, wander_target.y - grid_position.y).normalized * data.Speed * .02f;
+
     }
 
     public void OnExit()
@@ -71,5 +78,12 @@ public class Wander : IAction
     override
     public string ToString(){
         return "Wander";
+    }
+
+    public void PrintStatus()
+    {
+        Debug.Log(this.ToString());
+        Debug.Log("Target Location: " + wander_target.ToString());
+        Debug.Log("Distance: " + Vector3.Distance(rb.position, grid.CellToWorld(wander_target)));
     }
 }
