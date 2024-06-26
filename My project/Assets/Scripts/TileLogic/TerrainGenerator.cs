@@ -17,13 +17,21 @@ public class TerrainGenerator : MonoBehaviour
     [SerializeField]
     private Tile water_tile;
 
+    //chance of block being water
+    [SerializeField]
+    private float water_threshhold; 
+
     [SerializeField]
     private Tile rock_tile;
 
+    //chance of rock given that the tile is not water
     [SerializeField]
-    private float scale = 40f;
+    private float rock_threshhold;
 
+    //the lower the number the less zoomed, therefore less gradual change
     [SerializeField]
+    private float scale;
+
     private float offsetx, offsety;
 
 
@@ -39,7 +47,7 @@ public class TerrainGenerator : MonoBehaviour
         maxx = bounds.xMax; maxy = bounds.yMax;
         offsetx = Random.Range(0,10000);
         offsety = Random.Range(0, 10000);
-        WorldGeneration();
+        BorderGeneration();
         float perlin;
 
         for(int i = minx; i < maxx; i++)
@@ -47,10 +55,11 @@ public class TerrainGenerator : MonoBehaviour
             for(int j = miny; j < maxy; j++)
             {
                 perlin = Mathf.PerlinNoise((i + offsetx) / scale,(j + offsety) /scale);
-                if (perlin < .3 && perlin > .1)
+                Debug.Log (perlin); 
+                if (perlin <= water_threshhold)
                 {
                     water_map.SetTile(new Vector3Int(i, j), water_tile);
-                }else if (Random.Range(0f,1f) < .01f)
+                }else if (Random.Range(0f,1f) < rock_threshhold)
                 {
                     terrain_map.SetTile(new Vector3Int(i, j), rock_tile);
                 }
@@ -58,7 +67,7 @@ public class TerrainGenerator : MonoBehaviour
         }
     }
 
-    public void WorldGeneration()
+    public void BorderGeneration()
     {
         //map border
         for (int i = minx - 1; i < maxx; i++)
